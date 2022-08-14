@@ -1,5 +1,7 @@
 package leetcodeQuestions;
 
+import java.util.Arrays;
+
 public class LeetCodeMain {
     public static void main(String[] args) {
 
@@ -29,7 +31,19 @@ public class LeetCodeMain {
         System.out.println(test.betterSol(arr1));
         */
 
-        int[] test2 = {0, 3, 7, 2, 5, 8, 4, 6, 0, 1};
-        System.out.println(test.testSet(test2));
+        //  Finally, well this is embarassing
+        int[] tfGoinOn = {0, 3, 7, 2, 5, 8, 4, 6, 0, 1};
+        // System.out.println(test.testSet(test2));
+
+        int[] nums = {-1, 0, 1, 2, -1, -4};
+        //System.out.println(test.threeSum(nums));
+        // Arrays.stream(nums).sorted().toArray();
+        //System.out.println(Arrays.toString(nums));
+
+        int[] height = {1, 8, 6, 2, 5, 4, 8, 3, 7};
+        // System.out.println(test.maxArea(height));
+
+        int[] prices = {5, 5, 4, 9, 3, 8, 5, 5, 1, 6, 8, 3, 4};
+        System.out.println(test.maxProfitSmart(prices));
     }
 }

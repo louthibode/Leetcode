@@ -17,7 +17,6 @@ public class SortingAlgos {
 
         for (int i = low; i < high; i++) {
             if (sort[i] < pivot) {
-
                 switchArr(sort, ++k, i);
             }
         }

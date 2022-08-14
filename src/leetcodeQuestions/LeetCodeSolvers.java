@@ -1,5 +1,6 @@
 package leetcodeQuestions;
 
+import java.sql.Array;
 import java.util.*;
 
 import static java.lang.Math.max;
@@ -280,4 +281,181 @@ public class LeetCodeSolvers {
 
         return maxSeq;
     }
+
+    public boolean isPalindrome(String s) {
+        int j = s.length() - 1;
+        int i = 0;
+        while (j >= i) {
+            int back = s.charAt(j);
+            int forw = s.charAt(i);
+
+            if (!isAlphaNumerical(back)) j--;
+            else if (!isAlphaNumerical(forw)) i++;
+            else {
+
+                System.out.println("j: " + j + " " + back);
+                System.out.println("i: " + i + " " + forw);
+
+                if (!charEquals(back, forw)) return false;
+                j--;
+                i++;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isAlphaNumerical(int check) {
+        return (check > 47 && check < 58) || (check > 64 && check < 91) || (check > 96 && check < 123);
+    }
+
+    private boolean charEquals(int char1, int char2) {
+        return char1 == char2 || (char1 > 64 && char2 > 64 && (char1 == char2 + 32 || char1 == char2 - 32));
+    }
+
+    public void quickSort(int[] toSort, int low, int high) {
+        if (low < high) {
+
+
+            int middleIndex = partition(toSort, low, high);
+
+            quickSort(toSort, low, middleIndex - 1);
+            quickSort(toSort, middleIndex + 1, high);
+        }
+    }
+
+    private int partition(int[] toSort, int low, int high) {
+        int pivot = toSort[high];
+        int k = low - 1;
+
+        for (int i = low; i < high; i++) {
+            if (toSort[i] < pivot) {
+                switchElements(toSort, ++k, i);
+            }
+        }
+
+        switchElements(toSort, ++k, high);
+        return k;
+    }
+
+    public void switchElements(int[] arr, int idx1, int idx2) {
+        int temp = arr[idx1];
+        arr[idx1] = arr[idx2];
+        arr[idx2] = temp;
+    }
+
+    public List<ArrayList<Integer>> twoSum(int[] arr, int idxStart, int baseVal) {
+        //  Stores the matches for twoSum;
+        HashMap<Integer, Integer> complements = new HashMap<Integer, Integer>();
+        List<ArrayList<Integer>> sols = new ArrayList<ArrayList<Integer>>();
+
+        for (int i = idxStart; i < arr.length; i++) {
+            if (complements.containsKey(-baseVal - arr[i])) {
+                ArrayList<Integer> sol = new ArrayList<>(Arrays.asList(baseVal,
+                        arr[complements.get(-baseVal - arr[i])], arr[i]
+                ));
+                if (!sols.contains(sol)) sols.add(sol);
+            } else {
+                complements.put(arr[i], i);
+            }
+        }
+        return sols;
+    }
+
+    public List<List<Integer>> threeSum(int[] nums) {
+        quickSort(nums, 0, nums.length - 1);
+        List<List<Integer>> sols = new ArrayList<List<Integer>>();
+
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) i++;
+            else {
+                sols.addAll(twoSum(nums, i + 1, nums[i]));
+            }
+        }
+
+        return sols;
+    }
+
+    public List<List<Integer>> threeSumSmarter(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        quickSort(nums, 0, nums.length - 1);
+
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i == 0 || nums[i] != nums[i - 1]) {
+                int l = i + 1;
+                int r = nums.length - 1;
+                int sum = nums[i] + nums[l] + nums[r];
+
+                while (l < r) {
+                    if (sum > 0) {
+                        r--;
+                    } else if (sum < 0) {
+                        l++;
+                    } else {
+                        result.add(new ArrayList<Integer>(Arrays.asList(nums[i], nums[l], nums[r])));
+                        do {
+                            l++;
+                        } while (nums[l] == nums[l - 1]);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public int maxArea(int[] height) {
+        int l = 0;
+        int r = height.length - 1;
+
+        int maxHeight = 0;
+
+        while (l < r) {
+            int curHeight = (r - l) * Math.min(height[l], height[r]);
+
+            if (curHeight > maxHeight) maxHeight = curHeight;
+
+            if (height[l] > height[r]) r--;
+            else l++;
+        }
+
+        return maxHeight;
+    }
+
+    public int maxProfit(int[] prices) {
+        if (prices.length == 0) return 0;
+
+        int minLow = prices[0];
+        int currHigh = 0;
+        int maxProfit = 0;
+
+        for (int i = 0; i < prices.length; i++) {
+            if (i == prices.length - 1 || prices[i + 1] < prices[i]) {
+                int currProfit = prices[i] - minLow;
+                if (currProfit > maxProfit) maxProfit = currProfit;
+            } else {
+                if (minLow > prices[i]) minLow = prices[i];
+            }
+        }
+        return maxProfit;
+    }
+
+    public int maxProfitSmart(int[] prices) {
+        int l = 0;
+        int r = 0;
+        int maxProfit = 0;
+
+        while (r < prices.length) {
+            if (prices[r] < prices[l]) {
+                l++;
+            } else {
+                int curProfit = prices[r] - prices[l];
+                if (maxProfit < curProfit) maxProfit = curProfit;
+                r++;
+            }
+        }
+
+        return maxProfit;
+    }
+
+    
 }
