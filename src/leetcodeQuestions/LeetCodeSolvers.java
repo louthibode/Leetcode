@@ -457,5 +457,149 @@ public class LeetCodeSolvers {
         return maxProfit;
     }
 
-    
+    public int lengthOfLongestSubstring2(String s) {
+        if (s.length() == 0) return 0;
+
+        Set<Character> observed = new HashSet<Character>();
+
+        int currLength = 1;
+        int maxLength = 0;
+        int l = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            char currChar = s.charAt(i);
+
+            if (observed.contains(currChar)) {
+                if (maxLength < currLength) maxLength = currLength;
+                while (observed.contains(currChar)) {
+                    currLength--;
+                    observed.remove(s.charAt(l++));
+                }
+            } else {
+                observed.add(currChar);
+                currLength++;
+            }
+
+            System.out.println("Index: " + i + "  CurrLength: " + currLength);
+        }
+        return maxLength;
+    }
+
+    public int characterReplacement(String s, int k) {
+        int maxStreak = 0;
+        int currStreak = 0;
+        int lastA = 0;
+
+        for (int r = 0; r < s.length(); r++) {
+            if (s.charAt(r) != 'A') {
+                if (k == 2) currStreak++;
+                if (k-- == 1) {
+                    lastA = r;
+                    currStreak++;
+                }
+                if (k == 0) {
+                    currStreak = r - lastA;
+                    lastA = r;
+                }
+            } else {
+                currStreak++;
+            }
+
+            if (maxStreak < currStreak) maxStreak = currStreak;
+        }
+
+        return maxStreak;
+    }
+
+    public int characterReplacementSmart(String s, int k) {
+        Map<Character, Integer> count = new HashMap<>(26);
+        int res = 0;
+        int l = 0;
+        int maxFreq = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            //  Inputs the quantity
+            int curCount = count.getOrDefault(s.charAt(i), 0) + 1;
+            count.put(s.charAt(i), curCount);
+            maxFreq = Math.max(maxFreq, curCount);
+
+            //  Make sure that the window is valid
+            while (i - l + 1 - maxFreq > k) {
+                count.put(s.charAt(l), count.getOrDefault(s.charAt(l), 0) - 1);
+                l++;
+            }
+
+            //  Updates the result
+            res = Math.max(res, i - l + 1);
+        }
+        return res;
+    }
+
+    public int maxCountHashMap(Map<Character, Integer> map) {
+        Integer max = 0;
+        for (Character key : map.keySet()) {
+            if (max < map.get(key)) max = map.get(key);
+        }
+        return max;
+    }
+
+    public int findPivot(int[] nums) {
+        int l = 0;
+        int r = nums.length - 1;
+
+        //  Will this end?
+        while (l < r) {
+            int pivot = (l + r) / 2;
+
+            if (nums[pivot] > nums[r]) l = pivot + 1;
+            else r = pivot;
+        }
+
+        return l;
+    }
+
+    public int search(int[] nums, int target) {
+        int splitOrdered = findPivot(nums);
+        return Math.max(binarySearch(nums, target, 0, splitOrdered - 1),
+                binarySearch(nums, target, splitOrdered, nums.length - 1));
+    }
+
+    public int binarySearch(int[] nums, int target, int low, int high) {
+        int targetIdx = -1;
+        int l = low;
+        int r = high;
+
+        while (l <= r) {
+            int pivot = (l + r) / 2;
+
+            //  Binary search algorithm;
+            if (nums[pivot] > target) r = pivot - 1;
+            else if (nums[pivot] < target) l = pivot + 1;
+            else return pivot;
+        }
+
+        return targetIdx;
+    }
+
+    public int findMinimum(int[] nums) {
+        int l = 0;
+        int r = nums.length - 1;
+
+        //  Will this end?
+        while (l < r) {
+            int pivot = (l + r) / 2;
+
+            if (nums[pivot] > nums[r]) l = pivot + 1;
+            else r = pivot;
+        }
+
+        return nums[l];
+    }
+
+    public ListNode reverseListRec(ListNode curr, ListNode last) {
+        if (curr.next == null) return new ListNode(curr.val, last);
+        else {
+            return reverseListRec(curr.next, new ListNode(curr.val, last));
+        }
+    }
 }

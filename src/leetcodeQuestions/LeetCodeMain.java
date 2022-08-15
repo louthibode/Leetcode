@@ -43,7 +43,14 @@ public class LeetCodeMain {
         int[] height = {1, 8, 6, 2, 5, 4, 8, 3, 7};
         // System.out.println(test.maxArea(height));
 
-        int[] prices = {5, 5, 4, 9, 3, 8, 5, 5, 1, 6, 8, 3, 4};
-        System.out.println(test.maxProfitSmart(prices));
+        String text = "abcabcbb";
+        // System.out.println(test.lengthOfLongestSubstring2(text));
+
+        String chars = "AABABBA";
+        // System.out.println(test.characterReplacementSmart(chars, 1));
+
+        int[] nums3 = {4, 5, 6, 7, 0, 1, 2};
+        System.out.println(test.findPivot(nums3));
+        System.out.println(test.binarySearch(nums, 0, 0, 4 - 1));
     }
 }
