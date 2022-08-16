@@ -50,7 +50,12 @@ public class LeetCodeMain {
         // System.out.println(test.characterReplacementSmart(chars, 1));
 
         int[] nums3 = {4, 5, 6, 7, 0, 1, 2};
-        System.out.println(test.findPivot(nums3));
-        System.out.println(test.binarySearch(nums, 0, 0, 4 - 1));
+        /*System.out.println(test.findPivot(nums3));
+        System.out.println(test.binarySearch(nums, 0, 0, 4 - 1));*/
+
+        ListNode test4 = new ListNode();
+        ListNode test5 = test4;
+        System.out.println(test4.toString());
+        System.out.println(test5.toString());
     }
 }

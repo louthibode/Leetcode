@@ -3,6 +3,7 @@ package leetcodeQuestions;
 import java.sql.Array;
 import java.util.*;
 
+
 import static java.lang.Math.max;
 import static java.lang.Math.toIntExact;
 
@@ -602,4 +603,65 @@ public class LeetCodeSolvers {
             return reverseListRec(curr.next, new ListNode(curr.val, last));
         }
     }
+
+    /*
+    public void reorderList(ListNode head) {
+        if (head == null) return;
+
+        Pair<ListNode, Integer> revList = reverseListRec(head, null, 0);
+        mergeList(head, revList.getKey(), revList.getValue());
+    }
+
+    private Pair<ListNode, Integer> reverseListRec(ListNode curr, ListNode passed, int k) {
+        if (curr.next == null) return new Pair(new ListNode(curr.val, passed), ++k);
+        else return reverseListRec(curr.next, new ListNode(curr.val, passed), ++k);
+    }
+    */
+    private void mergeList(ListNode forw, ListNode rev, int k) {
+        if (k <= 2) return;
+
+        ListNode forwRef = forw;
+        ListNode f1Ref = forw.next;
+
+        for (int i = 0; i < k - 1; i++) {
+            if (i % 2 == 0) {
+                forwRef.next = rev;
+                rev = rev.next;
+            } else {
+                forwRef.next = f1Ref;
+                f1Ref = f1Ref.next;
+            }
+            forwRef = forwRef.next;
+        }
+
+        forwRef.next = null;
+    }
+
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if (head == null) return head;
+
+        ListNode headCop = new ListNode(0, head);
+
+        removeRec(headCop, headCop.next, n);
+
+        return headCop.next;
+    }
+
+    public int removeRec(ListNode prev, ListNode curr, int n) {
+        int k = -1;
+
+        if (curr.next == null) k = 1;
+        else k = removeRec(curr, curr.next, n);
+
+        if (k == n) prev.next = curr.next;
+        return ++k;
+    }
+
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if (p == null && q == null) return true;
+        else if (p == null || q == null) return false;
+        else return (p.val == q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right));
+    }
+
+
 }
