@@ -55,7 +55,13 @@ public class LeetCodeMain {
 
         ListNode test4 = new ListNode();
         ListNode test5 = test4;
-        System.out.println(test4.toString());
-        System.out.println(test5.toString());
+        //System.out.println(test4.toString());
+        //System.out.println(test5.toString());
+
+        int[] memo = new int[5];
+        System.out.println(memo[4] == 0);
+
+        String testString = "holamama";
+        System.out.println(testString.substring(0, 8));
     }
 }

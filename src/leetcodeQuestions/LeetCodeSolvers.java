@@ -1,5 +1,7 @@
 package leetcodeQuestions;
 
+import com.sun.source.tree.Tree;
+
 import java.sql.Array;
 import java.util.*;
 
@@ -663,5 +665,55 @@ public class LeetCodeSolvers {
         else return (p.val == q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right));
     }
 
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        if (root == null) return root == subRoot;
+        else
+            return (root.val == subRoot.val && isSameTree(root, subRoot)) || isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+    }
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<TreeNode> queue = new LinkedList<>();
+        List<TreeNode> tempQueue = new LinkedList<>();
+        queue.add(root);
+
+        List<List<Integer>> sol = new ArrayList<List<Integer>>();
+        List<Integer> currList = new ArrayList<Integer>();
+
+        while (queue.size() > 0) {
+            TreeNode curr = queue.remove(0);
+            if (curr != null) {
+                tempQueue.add(curr.left);
+                tempQueue.add(curr.right);
+                currList.add(curr.val);
+            }
+
+            if (queue.size() == 0) {
+                sol.add(currList);
+                queue = tempQueue;
+                tempQueue = new LinkedList<>();
+                currList = new ArrayList<>();
+            }
+        }
+        return sol;
+    }
+
+    public int kthSmallest(TreeNode root, int k) {
+        SortedSet<Integer> set = new TreeSet<>();
+        dfs(root, set);
+        Iterator<Integer> ite = set.iterator();
+        int i = 0;
+        int kth = 0;
+
+        while (ite.hasNext() && i < k) kth = ite.next();
+        return kth;
+    }
+
+    public void dfs(TreeNode root, Set<Integer> set) {
+        if (root != null) {
+            set.add(root.val);
+            dfs(root.left, set);
+            dfs(root.right, set);
+        }
+    }
 
 }
